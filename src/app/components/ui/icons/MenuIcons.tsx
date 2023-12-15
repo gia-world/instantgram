@@ -7,3 +7,4 @@ export { default as NewFillIcon } from "./NewFillIcon";
 
 // * 모듈 다시 내보내기
 // * https://ko.javascript.info/import-export#ref-128
+// MenuIcons가 불릴때마다 모든 아이콘을 읽어옴
