@@ -12,6 +12,7 @@ import {
   SearchIcon,
 } from "./ui/icons/MenuIcons";
 import ColorButton from "./ui/ColorButton";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 // import HomeIcon from "./ui/icons/HomeIcon";
 // import HomeFillIcon from "./ui/icons/HomeFillIcon";
@@ -28,6 +29,7 @@ const menu = [
 ];
 
 export default function NavBar() {
+  const { data: session } = useSession();
   const pathName = usePathname();
   return (
     <nav>
@@ -40,7 +42,21 @@ export default function NavBar() {
           </li>
         ))}
         <li>
-          <ColorButton text="Sign in" onClick={() => {}} />
+          {session ? (
+            <ColorButton
+              text="Sign out"
+              onClick={() => {
+                signOut();
+              }}
+            />
+          ) : (
+            <ColorButton
+              text="Sign in"
+              onClick={() => {
+                signIn();
+              }}
+            />
+          )}
         </li>
       </ul>
     </nav>
