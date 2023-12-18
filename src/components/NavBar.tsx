@@ -13,14 +13,17 @@ import {
 } from "./ui/icons/MenuIcons";
 import ColorButton from "./ui/ColorButton";
 import { useSession, signIn, signOut } from "next-auth/react";
+import Avatar from "./Avatar";
 
+/*
+* 모듈 다시 내보내기
 // import HomeIcon from "./ui/icons/HomeIcon";
 // import HomeFillIcon from "./ui/icons/HomeFillIcon";
 // import SearchIcon from "./ui/icons/SearchIcon";
 // import SearchFillIcon from "./ui/icons/SearchFillIcon";
 // import NewIcon from "./ui/icons/NewIcon";
 // import NewFillIcon from "./ui/icons/NewFillIcon";
-// * 모듈 다시 내보내기
+*/
 
 const menu = [
   { href: "/", icon: <HomeIcon />, clickedIcon: <HomeFillIcon /> },
@@ -31,6 +34,9 @@ const menu = [
 export default function NavBar() {
   const { data: session } = useSession();
   const pathName = usePathname();
+  console.log(session, "use session");
+  const user = session?.user;
+
   return (
     <nav>
       <ul className="flex gap-4 items-center">
@@ -41,6 +47,13 @@ export default function NavBar() {
             </Link>
           </li>
         ))}
+        <li>
+          {user && (
+            <Link href={`/user/${user.username}`}>
+              <Avatar image={user.image} />
+            </Link>
+          )}
+        </li>
         <li>
           {session ? (
             <ColorButton

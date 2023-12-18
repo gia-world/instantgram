@@ -1,4 +1,5 @@
 import React from "react";
+import ColorBorder from "./ColorBorder";
 
 type Props = {
   text: string;
@@ -6,13 +7,10 @@ type Props = {
   size?: "small" | "big";
 };
 
-export default function ColorButton({ text, onClick, size = "small" }: Props) {
+export default function ColorButton({ text, onClick, size }: Props) {
+  console.log(size);
   return (
-    <div
-      className={`rounded-md bg-gradient-to-bl from-fuchsia-600 via-rose-500 to-amber-300  ${
-        size === "big" ? "p-[0.3rem]" : "p-[0.15rem]"
-      }`}
-    >
+    <ColorBorder size={size}>
       <button
         onClick={onClick}
         className={`bg-white rounded-sm  hover:opacity-90 transition-opacity ${
@@ -21,6 +19,6 @@ export default function ColorButton({ text, onClick, size = "small" }: Props) {
       >
         {text}
       </button>
-    </div>
+    </ColorBorder>
   );
 }
