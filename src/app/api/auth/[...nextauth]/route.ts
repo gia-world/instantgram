@@ -9,7 +9,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/auth/signin",
+    signIn: "/auth/signin", //커스텀 로그인 페이지 연결
   },
   callbacks: {
     async session({ session }) {

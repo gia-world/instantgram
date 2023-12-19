@@ -12,6 +12,8 @@ type Props = {
 export default function Signin({ providers, callbackUrl }: Props) {
   return (
     <>
+      {/* 객체인 providers에서 밸류값만 가져와 배열로 생성 */}
+      {/* providers => {google : {...} } */}
       {Object.values(providers).map(({ name, id }) => (
         <ColorButton
           key={name}

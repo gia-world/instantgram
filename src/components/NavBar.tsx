@@ -34,12 +34,11 @@ const menu = [
 export default function NavBar() {
   const { data: session } = useSession();
   const pathName = usePathname();
-  console.log(session, "use session");
   const user = session?.user;
 
   return (
     <nav>
-      <ul className="flex gap-4 items-center">
+      <ul className="flex items-center gap-4">
         {menu.map((item) => (
           <li key={item.href}>
             <Link href={item.href}>
