@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { addUser } from "@/service/user";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -12,6 +13,20 @@ export const authOptions: NextAuthOptions = {
     signIn: "/auth/signin", //커스텀 로그인 페이지 연결
   },
   callbacks: {
+    async signIn({ user: { id, name, email, image } }) {
+      console.log(id, "user");
+      if (!email) {
+        return false;
+      }
+      addUser({
+        id,
+        name: name || "",
+        image,
+        email,
+        username: email.split("@")[0],
+      });
+      return true;
+    },
     async session({ session }) {
       console.log(session, "session");
       const user = session?.user;
