@@ -21,7 +21,7 @@ export default async function HomePage() {
 
   return (
     <section className="flex w-full max-w-[850px] flex-col gap-8 p-4 md:flex-row">
-      <div className="w-full basis-3/4">
+      <div className="w-full min-w-0 basis-3/4">
         {/* 두 컴포넌트는 정보가 많아 과부하가 올 수 있으므로 CSR */}
         <FollowingBar />
         <PostList />
