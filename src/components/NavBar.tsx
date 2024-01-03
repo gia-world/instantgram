@@ -46,13 +46,13 @@ export default function NavBar() {
             </Link>
           </li>
         ))}
-        <li>
-          {user && (
+        {user && (
+          <li>
             <Link href={`/user/${user.username}`}>
               <Avatar image={user.image} size="small" colorBorder />
             </Link>
-          )}
-        </li>
+          </li>
+        )}
         <li>
           {session ? (
             <ColorButton
