@@ -12,13 +12,14 @@ export default function Avatar({
   colorBorder = false,
 }: Props) {
   const containerSizeStyle = size === "small" ? "w-9 h-9" : "w-[68px] h-[68px]";
+  const imageSizeStyle =
+    size === "small" ? "h-8 w-8 p-[0.1rem]" : "h-16 w-16 p-[0.2rem]";
+
   const avatarContent = (
     // next Image 태그를 외부 url 로 사용하려면 해당 도메인을 config에 추가해줘야 하는데 어떤 경로에서 올 지 알 수 없으므로
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      className={`rounded-full bg-white ${
-        size === "small" ? "p-[0.1rem]" : "p-[0.2rem]"
-      }`}
+      className={`rounded-full bg-white object-cover ${imageSizeStyle}`}
       src={image ?? undefined}
       alt="user image"
       referrerPolicy="no-referrer"
@@ -26,7 +27,10 @@ export default function Avatar({
   );
 
   return colorBorder ? (
-    <ColorBorder shape="circle" classname={containerSizeStyle}>
+    <ColorBorder
+      shape="circle"
+      classname={`flex justify-center items-center ${containerSizeStyle}`}
+    >
       {avatarContent}
     </ColorBorder>
   ) : (
@@ -35,7 +39,8 @@ export default function Avatar({
 
   // * 엘리 버젼
   // return (
-  //   <div className={getContainerStyle(size, colorBorder)}>
+  //   <div className={getContainerStyle(size, highight)}>
+  // next Image 태그를 외부 url 로 사용하려면 해당 도메인을 config에 추가해줘야 하는데 어떤 경로에서 올 지 알 수 없으므로
   //     {/* eslint-disable-next-line @next/next/no-img-element */}
   //     <img
   //       className={`rounded-full bg-white ${getImageSizeStyle(size)}`}
