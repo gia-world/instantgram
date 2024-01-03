@@ -1,4 +1,3 @@
-import React from "react";
 import ColorBorder from "./ui/ColorBorder";
 
 type Props = {
