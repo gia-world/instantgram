@@ -1,16 +1,15 @@
 import { SimplePost } from "@/model/post";
 import Image from "next/image";
-import { parseDate } from "../util/date";
+import ActionBar from "./ActionBar";
 import Avatar from "./Avatar";
-import BookmarkIcon from "./ui/icons/BookmarkIcon";
-import HeartIcon from "./ui/icons/HeartIcon";
-import SmileIcon from "./ui/icons/SmileIcon";
+import CommentForm from "./CommentForm";
 
 type Props = {
   post: SimplePost;
+  priority?: boolean;
 };
 
-export default function PostCard({ post }: Props) {
+export default function PostCard({ post, priority = false }: Props) {
   const { userImage, username, image, createdAt, likes, text } = post;
   return (
     <article className="rounded-lg border border-gray-200 shadow-md">
@@ -24,32 +23,15 @@ export default function PostCard({ post }: Props) {
         alt={`photo by ${username}`}
         width={500}
         height={500}
+        priority={priority}
       />
-      <div className="my-2 flex justify-between px-4">
-        <HeartIcon />
-        <BookmarkIcon />
-      </div>
-      <div className="px-4 py-1">
-        <p className="mb-2 text-sm font-bold">{`${likes?.length ?? 0} ${
-          likes?.length > 1 ? "likes" : "like"
-        }`}</p>
-        <p>
-          <span className="mr-1 font-bold">{username}</span>
-          {text}
-        </p>
-        <p className="my-2 text-xs uppercase text-neutral-500">
-          {parseDate(createdAt)}
-        </p>
-        <form className="flex items-center gap-3 border-t border-neutral-300 p-3">
-          <SmileIcon />
-          <input
-            className="w-full border-none outline-none"
-            type="text"
-            placeholder="Add a comment..."
-          />
-          <button className="font-bold text-sky-500">Post</button>
-        </form>
-      </div>
+      <ActionBar
+        likes={likes}
+        username={username}
+        createdAt={createdAt}
+        text={text}
+      />
+      <CommentForm />
     </article>
   );
 }
