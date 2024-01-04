@@ -45,3 +45,28 @@ export async function getFollowingPostsOf(username: string) {
 | order(_createdAt desc){${simplePostProjection}}
 => 정렬할건데 _createdAt을 기준으로 최신 것이 위로 올라오도록, 그리고 명시한 프로젝션에 따라서 데이터를 가공할거야
 */
+
+export async function getPost(id: string) {
+  return client
+    .fetch(
+      `*[_type == 'post' && _id == '${id}'][0]{
+      ...,
+      'username':author->username,
+      'userImage':author->image,
+      'image': photo,
+      'likes': likes[]->username,
+      'id':_id, 
+      'createdAt': _createdAt,
+      comments[]{
+        comment, 
+        'username': author->username, 
+        'userImage': author->image, 
+      }
+    }
+    `,
+    )
+    .then((post) => ({
+      ...post,
+      image: urlFor(post.image),
+    }));
+}
