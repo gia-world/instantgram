@@ -1,8 +1,10 @@
 "use client";
 
-import React from "react";
-import { usePathname } from "next/navigation";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import Avatar from "./Avatar";
+import ColorButton from "./ui/ColorButton";
 import {
   HomeFillIcon,
   HomeIcon,
@@ -11,9 +13,6 @@ import {
   SearchFillIcon,
   SearchIcon,
 } from "./ui/icons/MenuIcons";
-import ColorButton from "./ui/ColorButton";
-import { useSession, signIn, signOut } from "next-auth/react";
-import Avatar from "./Avatar";
 
 /*
 * 모듈 다시 내보내기
@@ -49,7 +48,7 @@ export default function NavBar() {
         {user && (
           <li>
             <Link href={`/user/${user.username}`}>
-              <Avatar image={user.image} size="small" colorBorder />
+              <Avatar image={user.image} size="small" highlight />
             </Link>
           </li>
         )}
