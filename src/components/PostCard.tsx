@@ -4,10 +4,10 @@ import { SimplePost } from "@/model/post";
 import Image from "next/image";
 import { useState } from "react";
 import ActionBar from "./ActionBar";
-import Avatar from "./Avatar";
 import CommentForm from "./CommentForm";
 import PostDetail from "./PostDetail";
 import PostModal from "./PostModal";
+import PostUserAvatar from "./PostUserAvatar";
 import ModalPortal from "./ui/ModalPortal";
 
 type Props = {
@@ -21,10 +21,7 @@ export default function PostCard({ post, priority = false }: Props) {
 
   return (
     <article className="rounded-lg border border-gray-200 shadow-md">
-      <div className="flex items-center gap-2 p-2">
-        <Avatar image={userImage} size="medium" highlight />
-        <span className="font-bold text-gray-900">{username}</span>
-      </div>
+      <PostUserAvatar userImage={userImage} username={username} />
       <Image
         className="aspect-square w-full object-cover"
         src={image}
