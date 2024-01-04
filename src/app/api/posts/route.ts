@@ -1,11 +1,9 @@
-import { getUserByUsername } from "@/service/user";
+import { getFollowingPostsOf } from "@/service/posts";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function GET() {
-  // 사용자가 보낸 요청 안에 쿠키 중 토큰 정보를 해석해서 가져와야함
-  // next-auth가 알아서 해독해줌 (getServerSession)
   const session = await getServerSession(authOptions);
   const user = session?.user;
 
@@ -13,7 +11,7 @@ export async function GET() {
     return new Response("Authentication Error", { status: 401 });
   }
 
-  return getUserByUsername(user.username).then((data) =>
+  return getFollowingPostsOf(user.username).then((data) =>
     NextResponse.json(data),
   );
 }
