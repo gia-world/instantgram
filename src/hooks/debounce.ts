@@ -1,4 +1,3 @@
-// useDebounce.js
 import { useEffect, useState } from "react";
 
 export default function useDebounce(value: string, delay: number = 500) {

@@ -38,8 +38,11 @@ export async function getUserByUsername(username: string) {
 
 export async function searchUsers(keyword?: string) {
   const query = keyword
-    ? `&& (name match "${keyword}") || (username match "${keyword}")`
+    ? `&& (name match "*${keyword}*") || (username match "*${keyword}*")`
     : "";
+  // ${keyword}를 *로 감싸서 포함된 내용까지 검색하게끔 할 수 있음
+  // name match "${keyword}" 는 전체 문자열이 완전히 일치하는 값만 검색
+
   return client
     .fetch(
       `*[_type == 'user' ${query}]{
