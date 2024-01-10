@@ -38,8 +38,8 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async jwt({ token, user }) {
-      //jwt라는 토큰이 만들어지거나 업데이트 되면 호출되는 콜백 함수
-      //=사용자가 로그인할 때 혹은 세션을 업데이트할 때
+      // jwt라는 토큰이 만들어지거나 업데이트 되면 호출되는 콜백 함수
+      // =사용자가 로그인할 때 혹은 세션을 업데이트할 때
       // https://next-auth.js.org/configuration/callbacks#jwt-callback
       if (user) {
         token.id = user.id;
