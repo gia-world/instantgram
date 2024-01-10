@@ -15,7 +15,7 @@ type Props = {
   priority?: boolean;
 };
 
-export default function PostCard({ post, priority = false }: Props) {
+export default function PostListCard({ post, priority = false }: Props) {
   const { userImage, username, image, createdAt, likes, text } = post;
   const [openModal, setOpenModal] = useState(false);
 

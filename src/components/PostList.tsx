@@ -2,7 +2,7 @@
 
 import { SimplePost } from "@/model/post";
 import useSWR from "swr";
-import PostCard from "./PostCard";
+import PostListCard from "./PostListCard";
 import GridSpinner from "./ui/GridSpinner";
 
 export default function PostList() {
@@ -20,7 +20,7 @@ export default function PostList() {
           {posts &&
             posts.map((post, index) => (
               <li key={post.id} className="mb-4">
-                <PostCard post={post} priority={index < 2} />
+                <PostListCard post={post} priority={index < 2} />
               </li>
             ))}
         </ul>
