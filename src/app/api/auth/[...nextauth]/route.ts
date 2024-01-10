@@ -1,6 +1,6 @@
+import { addUser } from "@/service/user";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { addUser } from "@/service/user";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -14,7 +14,6 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({ user: { id, name, email, image } }) {
-      // console.log(id, "user");
       if (!email) {
         return false;
       }
@@ -27,16 +26,25 @@ export const authOptions: NextAuthOptions = {
       });
       return true;
     },
-    async session({ session }) {
-      // console.log(session, "session");
+    async session({ session, token }) {
       const user = session?.user;
       if (user) {
         session.user = {
           ...user,
           username: user.email?.split("@")[0] || "",
+          id: token.id as string,
         };
       }
       return session;
+    },
+    async jwt({ token, user }) {
+      //jwt라는 토큰이 만들어지거나 업데이트 되면 호출되는 콜백 함수
+      //=사용자가 로그인할 때 혹은 세션을 업데이트할 때
+      // https://next-auth.js.org/configuration/callbacks#jwt-callback
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
     },
   },
 };

@@ -109,3 +109,24 @@ function mapPosts(posts: SimplePost[]) {
     image: urlFor(post.image),
   }));
 }
+
+export async function likePost(postId: string, userId: string) {
+  return client
+    .patch(postId) // postId에 해당하는 데이터를 수정하기 위해 patch를 수행
+    .setIfMissing({ likes: [] }) // 'likes' 필드가 없으면 빈 배열로 설정
+    .append("likes", [
+      // 'likes' 배열에 새 요소 추가
+      {
+        _ref: userId, // '_ref' 필드에 userId를 추가
+        _type: "reference", // '_type' 필드에 'reference' 타입 추가
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true }); // 변경사항을 적용하고 배열 키를 자동으로 생성하여 커밋
+}
+
+export async function dislikePost(postId: string, userId: string) {
+  return client
+    .patch(postId)
+    .unset([`likes[_ref == '${userId}']`])
+    .commit();
+}
