@@ -19,21 +19,13 @@ const simplePostProjection = `
 // => url of a full size unoptimized image
 
 export async function getFollowingPostsOf(username: string) {
-  return (
-    client
-      .fetch(
-        `*[_type == 'post' && author->username == '${username}'
+  return client
+    .fetch(
+      `*[_type == 'post' && author->username == '${username}'
         || author._ref in *[_type == 'user' && username == '${username}'].following[]._ref]
         | order(_createdAt desc){${simplePostProjection}}`,
-      )
-      // @sanity/image-url 사용하여 외부 url도 최적화하여 가져오게끔
-      .then((posts) =>
-        posts.map((post: SimplePost) => ({
-          ...post,
-          image: urlFor(post.image),
-        })),
-      )
-  );
+    )
+    .then(mapPosts);
 }
 /*
 *[_type == 'post' && author->username == '${username}'
@@ -69,4 +61,51 @@ export async function getPost(id: string) {
       ...post,
       image: urlFor(post.image),
     }));
+}
+
+export async function getPostsOf(username: string) {
+  return client
+    .fetch(
+      `
+  *[_type == 'post' && author->username == '${username}']
+  | order(_createdAt desc){
+    ${simplePostProjection}
+  }
+  `,
+    )
+    .then(mapPosts);
+}
+
+export async function getLikedPostsOf(username: string) {
+  return client
+    .fetch(
+      `
+  *[_type == 'post' && '${username} in likes[]->username']
+  | order(_createdAt desc){
+    ${simplePostProjection}
+  }
+  `,
+    )
+    .then(mapPosts);
+}
+
+export async function getSavedPostsOf(username: string) {
+  return client
+    .fetch(
+      `
+  *[_type == 'post' && _id in *[_type == 'user' && username == '${username}'].bookmarks[]._ref]
+  | order(_createdAt desc){
+    ${simplePostProjection}
+  }
+  `,
+    )
+    .then(mapPosts);
+}
+
+function mapPosts(posts: SimplePost[]) {
+  // @sanity/image-url 사용하여 외부 url도 최적화하여 가져오게끔
+  return posts.map((post: SimplePost) => ({
+    ...post,
+    image: urlFor(post.image),
+  }));
 }
