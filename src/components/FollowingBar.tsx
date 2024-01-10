@@ -1,6 +1,6 @@
 "use client";
 
-import { DetailUser } from "@/model/user";
+import { HomeUser } from "@/model/user";
 import Link from "next/link";
 import { PulseLoader } from "react-spinners";
 import useSWR from "swr";
@@ -18,7 +18,7 @@ export default function FollowingBar() {
   데이터를 다 받아와서 json 변환이 완료되면 data에 담아줌
   */
 
-  const { data, isLoading, error } = useSWR<DetailUser>("/api/me");
+  const { data, isLoading, error } = useSWR<HomeUser>("/api/me");
   // const users = data?.following;
   // const users=undefined
   const users = data?.following && [
