@@ -1,7 +1,7 @@
+import usePost from "@/hooks/posts";
 import { SimplePost } from "@/model/post";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { useSWRConfig } from "swr";
 import { parseDate } from "../util/date";
 import BookmarkFillIcon from "./ui/icons/BookmarkFillIcon";
 import BookmarkIcon from "./ui/icons/BookmarkIcon";
@@ -22,13 +22,18 @@ export default function ActionBar({ post }: Props) {
 
   const [bookmarked, setBookmarked] = useState(false);
 
-  const { mutate } = useSWRConfig();
+  // const { mutate } = useSWRConfig();
+  const { setLike } = usePost();
 
   const handleLike = (like: boolean) => {
-    fetch("/api/likes", {
-      method: "PUT",
-      body: JSON.stringify({ id, like }),
-    }).then(() => mutate("/api/posts"));
+    if (user) {
+      setLike(post, user.username, like);
+    }
+    // fetch("/api/likes", {
+    //   method: "PUT",
+    //   body: JSON.stringify({ id, like }),
+    // }).then(() => mutate("/api/posts"));
+    // mutate(key) : key를 사용하는 모든 데이터의 캐시가 revalidate 됨
   };
 
   return (
