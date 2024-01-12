@@ -80,7 +80,7 @@ export async function getLikedPostsOf(username: string) {
   return client
     .fetch(
       `
-  *[_type == 'post' && '${username} in likes[]->username']
+  *[_type == 'post' && '${username}' in likes[]->username]
   | order(_createdAt desc){
     ${simplePostProjection}
   }
