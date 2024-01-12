@@ -39,5 +39,6 @@ export default function usePost() {
       rollbackOnError: true, // 백엔드에 제대로 업데이트가 되지 않은 경우
     });
   };
+
   return { posts, isLoading, error, setLike };
 }
