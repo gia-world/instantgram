@@ -1,11 +1,11 @@
 "use client";
 
-import usePost from "@/hooks/posts";
+import usePosts from "@/hooks/posts";
 import PostListCard from "./PostListCard";
 import GridSpinner from "./ui/GridSpinner";
 
 export default function PostList() {
-  const { posts, isLoading } = usePost();
+  const { posts, isLoading } = usePosts();
 
   return (
     <section>

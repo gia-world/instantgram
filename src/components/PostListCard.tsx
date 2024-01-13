@@ -1,6 +1,6 @@
 "use client";
 
-import usePost from "@/hooks/posts";
+import usePosts from "@/hooks/posts";
 import { SimplePost } from "@/model/post";
 import Image from "next/image";
 import { useState } from "react";
@@ -19,7 +19,7 @@ type Props = {
 export default function PostListCard({ post, priority = false }: Props) {
   const { userImage, username, image, comments, text } = post;
   const [openModal, setOpenModal] = useState(false);
-  const { postComment } = usePost();
+  const { postComment } = usePosts();
 
   const handlePostComment = (comment: string) => {
     postComment(post, comment);

@@ -1,5 +1,5 @@
 import useMe from "@/hooks/me";
-import usePost from "@/hooks/posts";
+import usePosts from "@/hooks/posts";
 import { SimplePost } from "@/model/post";
 import { parseDate } from "../util/date";
 import BookmarkFillIcon from "./ui/icons/BookmarkFillIcon";
@@ -18,7 +18,7 @@ export default function ActionBar({ post, children }: Props) {
   // const { data: session } = useSession();
   // const user = session?.user;
   const { user, setBookmark } = useMe();
-  const { setLike } = usePost();
+  const { setLike } = usePosts();
 
   const liked = user && likes.includes(user.username) ? true : false;
   const bookmarked = user?.bookmarks.includes(id) ?? false;

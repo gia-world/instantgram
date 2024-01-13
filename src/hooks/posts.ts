@@ -17,7 +17,7 @@ async function addComment(id: string, comment: string) {
   }).then((res) => res.json());
 }
 
-export default function usePost() {
+export default function usePosts() {
   const {
     data: posts,
     isLoading,
