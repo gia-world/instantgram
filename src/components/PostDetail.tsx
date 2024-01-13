@@ -3,6 +3,7 @@ import Image from "next/image";
 import useSWR from "swr";
 import ActionBar from "./ActionBar";
 import Avatar from "./Avatar";
+import CommentForm from "./CommentForm";
 import PostUserAvatar from "./PostUserAvatar";
 
 type Props = {
@@ -13,6 +14,8 @@ export default function PostDetail({ post }: Props) {
   const { id, userImage, username, image, createdAt, likes, text } = post;
   const { data } = useSWR<FullPost>(`api/posts/${id}`);
   const comments = data?.comments;
+
+  const handlePostComment = (comment: string) => {};
 
   return (
     <section className="flex h-full w-full">
@@ -54,6 +57,7 @@ export default function PostDetail({ post }: Props) {
             )}
         </ul>
         <ActionBar post={post} />
+        <CommentForm onPostComment={handlePostComment} />
       </div>
     </section>
   );

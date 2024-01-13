@@ -1,5 +1,6 @@
 "use client";
 
+import usePost from "@/hooks/posts";
 import { SimplePost } from "@/model/post";
 import Image from "next/image";
 import { useState } from "react";
@@ -18,6 +19,11 @@ type Props = {
 export default function PostListCard({ post, priority = false }: Props) {
   const { userImage, username, image, comments, text } = post;
   const [openModal, setOpenModal] = useState(false);
+  const { postComment } = usePost();
+
+  const handlePostComment = (comment: string) => {
+    postComment(post, comment);
+  };
 
   return (
     <article className="rounded-lg border border-gray-200 shadow-md">
@@ -43,7 +49,7 @@ export default function PostListCard({ post, priority = false }: Props) {
           >{`View all ${comments} comments`}</button>
         )}
       </ActionBar>
-      <CommentForm />
+      <CommentForm onPostComment={handlePostComment} />
       {openModal && (
         <ModalPortal>
           <PostModal onClose={() => setOpenModal(false)}>
