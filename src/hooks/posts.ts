@@ -1,3 +1,4 @@
+import { useCacheKeys } from "@/context/CacheKeysContext";
 import { Comment, SimplePost } from "@/model/post";
 import { useCallback } from "react";
 import useSWR from "swr";
@@ -19,12 +20,13 @@ async function addComment(id: string, comment: string) {
 }
 
 export default function usePosts() {
+  const cacheKeys = useCacheKeys();
   const {
     data: posts,
     isLoading,
     error,
     mutate, // 바운드된 뮤테이트 = mutate 함수가 특정 키 또는 리소스와 특별히 연결되어 있다. 여기서 키는 "/api/posts"
-  } = useSWR<SimplePost[]>("/api/posts");
+  } = useSWR<SimplePost[]>(cacheKeys.postsKey);
   //   const { mutate } = useSWRConfig();
   // mutate(key) : key를 사용하는 모든 데이터의 캐시가 revalidate 됨
 
