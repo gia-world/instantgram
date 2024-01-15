@@ -2,9 +2,11 @@
 
 import { AuthUser } from "@/model/user";
 import Image from "next/image";
-import { ChangeEvent, DragEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, DragEvent, FormEvent, useRef, useState } from "react";
 import PostUserAvatar from "./PostUserAvatar";
 import Button from "./ui/Button";
+import GridSpinner from "./ui/GridSpinner";
 import FilesIcon from "./ui/icons/FilesIcon";
 
 type Props = {
@@ -12,14 +14,23 @@ type Props = {
 };
 
 export default function NewPost({ user: { username, image } }: Props) {
+  const router = useRouter();
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File>();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>();
+  const textRef = useRef<HTMLTextAreaElement>(null);
+  // textarea에 바로 onChange 핸들러를 붙이면
+  // 텍스트를 입력할때마다 내부상태가 업데이트 되서 리렌더링 발생
+  // -> 컨트롤 컴포넌트로 사용하지 않고 ref를 전달
+
+  //?? 컨트롤 컴포넌트 : textarea 같은 폼 요소에 대한 입력을 제어하면서, 입력값과 컴포넌트의 상태를 동기화하는 방식
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const files = e.target?.files;
     if (files && files[0]) {
       setFile(files[0]);
-      console.log(files[0], "파일");
     }
   };
 
@@ -42,14 +53,45 @@ export default function NewPost({ user: { username, image } }: Props) {
     const files = e.dataTransfer?.files; // 드랍한 파일이 있는지 확인
     if (files && files[0]) {
       setFile(files[0]);
-      console.log(files[0], "파일");
     }
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!file) return;
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("text", textRef.current?.value ?? "");
+
+    fetch("/api/posts", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => {
+        if (!res.ok) {
+          setError(`${res.status} ${res.statusText}`);
+        }
+        router.push("/");
+      })
+      .catch((err) => setError(err.toString()))
+      .finally(() => setLoading(false));
   };
 
   return (
     <section className="mt-6 flex w-full max-w-xl flex-col items-center">
+      {loading && (
+        <div className="absolute inset-0 z-20 bg-sky-500/20 pt-[30%] text-center">
+          <GridSpinner />
+        </div>
+      )}
+      {error && (
+        <p className="mb-4 w-full bg-red-100 p-4 text-center font-bold text-red-600">
+          {error}
+        </p>
+      )}
       <PostUserAvatar username={username} userImage={image ?? ""} />
-      <form className="mt-2 flex w-full flex-col gap-2">
+      <form className="mt-2 flex w-full flex-col gap-2" onSubmit={handleSubmit}>
         <input
           className="hidden"
           name="input"
@@ -96,6 +138,7 @@ export default function NewPost({ user: { username, image } }: Props) {
           required
           rows={10}
           placeholder={"Write a caption"}
+          ref={textRef}
         />
         <Button text="Publish" onClick={() => {}} />
       </form>
