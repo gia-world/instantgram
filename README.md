@@ -1,38 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Instantgram
 
-## Getting Started
+Instagram을 표방하여 만든 어플리케이션입니다.
 
-First, run the development server:
+1. Sanity를 활용한 Headless CMS 구성
+2. Next.js의 route handler로 API 구현
+3. SWR 이용한 네트워크 상태 관리
+4. Next-auth 이용하여 구글로그인 구현
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## 작업기간
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2023.12.13 ~ 2024.1.16
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 기능
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- 구글 로그인
+- _post_
+  - 신규 작성 (파일 업로드 드래그앤드랍 구현)
+  - 좋아요, 저장, 댓글 기능
+- _user_
+  - 내 포스트와 좋아요, 저장한 포스트 확인
+  - 팔로우, 언팔로우 기능
+  - 유저 검색 기능
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## 사용 스택 및 라이브러리
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Next.js 13
+- Typescript
+- Tailwind
+- Sanity(CMS)
+- SWR
+- Next-auth
+- Vercel(deployment)
