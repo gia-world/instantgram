@@ -23,8 +23,10 @@ export default function NewPost({ user: { username, image } }: Props) {
   // textarea에 바로 onChange 핸들러를 붙이면
   // 텍스트를 입력할때마다 내부상태가 업데이트 되서 리렌더링 발생
   // -> 컨트롤 컴포넌트로 사용하지 않고 ref를 전달
+  // ref는 실시간 입력값을 어딘가에 저장중
 
-  //?? 컨트롤 컴포넌트 : textarea 같은 폼 요소에 대한 입력을 제어하면서, 입력값과 컴포넌트의 상태를 동기화하는 방식
+  //* 컨트롤 컴포넌트 : textarea 같은 폼 요소에 대한 입력을 제어하면서, 입력값과 컴포넌트의 상태를 동기화하는 방식
+  // onChange 없이 state만 사용할 경우 실시간 입력값을 고정할 수 없음
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
