@@ -25,9 +25,24 @@ import {
 */
 
 const menu = [
-  { href: "/", icon: <HomeIcon />, clickedIcon: <HomeFillIcon /> },
-  { href: "/search", icon: <SearchIcon />, clickedIcon: <SearchFillIcon /> },
-  { href: "/new", icon: <NewIcon />, clickedIcon: <NewFillIcon /> },
+  {
+    href: "/",
+    icon: <HomeIcon />,
+    clickedIcon: <HomeFillIcon />,
+    title: "Home",
+  },
+  {
+    href: "/search",
+    icon: <SearchIcon />,
+    clickedIcon: <SearchFillIcon />,
+    title: "Search users",
+  },
+  {
+    href: "/new",
+    icon: <NewIcon />,
+    clickedIcon: <NewFillIcon />,
+    title: "New post",
+  },
 ];
 
 export default function NavBar() {
@@ -38,10 +53,10 @@ export default function NavBar() {
   return (
     <nav>
       <ul className="flex items-center gap-4">
-        {menu.map((item) => (
-          <li key={item.href}>
-            <Link href={item.href}>
-              {pathName === item.href ? item.clickedIcon : item.icon}
+        {menu.map(({ href, icon, clickedIcon, title }) => (
+          <li key={href}>
+            <Link href={href} aria-label={title}>
+              {pathName === href ? clickedIcon : icon}
             </Link>
           </li>
         ))}
