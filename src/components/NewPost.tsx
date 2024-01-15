@@ -1,6 +1,7 @@
 "use client";
 
 import { AuthUser } from "@/model/user";
+import Image from "next/image";
 import { ChangeEvent, DragEvent, useState } from "react";
 import PostUserAvatar from "./PostUserAvatar";
 import Button from "./ui/Button";
@@ -46,9 +47,9 @@ export default function NewPost({ user: { username, image } }: Props) {
   };
 
   return (
-    <section>
+    <section className="mt-6 flex w-full max-w-xl flex-col items-center">
       <PostUserAvatar username={username} userImage={image ?? ""} />
-      <form>
+      <form className="mt-2 flex w-full flex-col gap-2">
         <input
           className="hidden"
           name="input"
@@ -58,16 +59,38 @@ export default function NewPost({ user: { username, image } }: Props) {
           onChange={handleChange}
         />
         <label
+          className={`flex h-60 w-full flex-col items-center justify-center ${
+            !file && "border-2 border-dashed border-sky-500"
+          }`}
           htmlFor="input-upload"
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
-          <FilesIcon />
-          <p>Drag and Drop your Image here or click</p>
+          {dragging && (
+            <div className="pointer-events-none absolute inset-0 z-10 bg-sky-500/20" />
+          )}
+          {!file && (
+            <div className="pointer-events-none flex flex-col items-center">
+              <FilesIcon />
+              <p>Drag and Drop your Image here or click</p>
+            </div>
+          )}
+          {file && (
+            <div className="relative aspect-square w-full">
+              <Image
+                className="object-cover"
+                src={URL.createObjectURL(file)}
+                alt="dropped local file"
+                fill
+                sizes="650px"
+              />
+            </div>
+          )}
         </label>
         <textarea
+          className="border border-neutral-300 text-lg outline-none"
           name="text"
           id="input-text"
           required
